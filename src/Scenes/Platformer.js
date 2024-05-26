@@ -16,6 +16,7 @@ class Platformer extends Phaser.Scene {
         this.jumpTick = 0;
         this.landTick = 0;
         this.lifeTick = 0;
+        this.heartBeat = 0;
     }
 
     preload(){
@@ -243,6 +244,24 @@ class Platformer extends Phaser.Scene {
                 this.lifeTick--;
                 if(this.lifeTick == 0){
                     this.lifeVFX.stop();
+                }
+            }
+
+            // Heart Animation
+            // Technically not an animation code-wise, but 
+            this.heartBeat++;
+            if(this.heartBeat%120==0){
+                for(let heart of this.hearts){
+                    if (heart.scale == 1){
+                        heart.scale = 1.5;
+                    }
+                }
+            }
+            if((this.heartBeat+110)%120==0){
+                for(let heart of this.hearts){
+                    if (heart.scale == 1.5){
+                        heart.scale = 1;
+                    }
                 }
             }
 
