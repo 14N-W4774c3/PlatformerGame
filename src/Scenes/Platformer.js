@@ -27,12 +27,12 @@ class Platformer extends Phaser.Scene {
     }
 
     create() {
-        this.gameOverText = this.add.text(200, 200, "Game Over", {align: 'center'});
-        this.continueText = this.add.text(200, 250, "Do You Want To Continue?", {align: 'center'});
-        this.yesText = this.add.text(200, 400, "Yes", {align: 'center'});
-        this.noText = this.add.text(400, 400, "No", {align: 'center'});
-        this.restartText = this.add.text(400, 400, "Restart", {align: 'center'});
-        this.youWonText = this.add.text(400, 250, "You Won!", {align: 'center'});
+        this.gameOverText = this.add.text(-200, 200, "Game Over", {align: 'center'});
+        this.continueText = this.add.text(-200, 250, "Do You Want To Continue?", {align: 'center'});
+        this.yesText = this.add.text(-200, 400, "Yes", {align: 'center'});
+        this.noText = this.add.text(-400, 400, "No", {align: 'center'});
+        this.restartText = this.add.text(400, 200, "Restart", {align: 'center'});
+        this.youWonText = this.add.text(400, 150, "You Won!", {align: 'center'});
         this.gameOverText.visible = false;
         this.continueText.visible = false;
         this.yesText.visible = false;
@@ -44,6 +44,7 @@ class Platformer extends Phaser.Scene {
         this.buttonYes = this.add.nineslice(-100, -100, "buttonGraphic");
         this.buttonNo = this.add.nineslice(-100, -100, "buttonGraphic");
         this.buttonRestart = this.add.nineslice(-100, -100, "buttonGraphic");
+        //this.buttonRestart.setSize(100, 50);
 
         // Create a new tilemap game object which uses 18x18 pixel tiles
         this.map = this.add.tilemap("platformer-level", 18, 18, 45, 20);
@@ -83,6 +84,24 @@ class Platformer extends Phaser.Scene {
             key: "spriteList",
             frame: 44
         });
+
+        /*
+        this.acidkillzone = this.map.createFromObjects("Objects", {
+            name: "acidkillzone",
+            classType: Phaser.GameObjects.Zone,
+        });
+        this.smallacidkillzone = this.map.createFromObjects("Objects", {
+            name: "smallacidkillzone",
+            classType: Phaser.GameObjects.Zone,
+        });
+        this.physics.world.enable(this.acidkillzone, Phaser.Physics.Arcade.STATIC_BODY);
+        this.physics.world.enable(this.smallacidkillzone, Phaser.Physics.Arcade.STATIC_BODY);
+        */
+        // ...This formatting is used in the Phaser docs.  Why doesn't it work?!
+        // The claimed error is 'sprite.setTexture is not a function' off of this.map.createFromObjects(...)
+        // Why is it calling 'sprite' anything?  These are specified as Zones!
+        // newdocs.phaser.io/3.80.0/Phaser.Tilemaps.Tilemap#createFromObjects
+
         this.physics.world.enable(this.hearts, Phaser.Physics.Arcade.STATIC_BODY);
         this.physics.world.enable(this.endPoint, Phaser.Physics.Arcade.STATIC_BODY);
         this.heartGroup = this.add.group(this.hearts);
@@ -147,8 +166,18 @@ class Platformer extends Phaser.Scene {
             this.lifeVFX.setY(obj2.y);
             this.lifeVFX.start();
             this.lifeTick = 20;
+            this.sound.play("powerup");
             obj2.destroy();
             this.lives ++;
+        });
+
+        this.physics.add.overlap(my.sprite.player, this.smallacidkillzone, (obj1, obj2) => {
+            console.log("Acid collision, small");
+            this.loseLife();
+        });
+        this.physics.add.overlap(my.sprite.player, this.acidkillzone, (obj1, obj2) => {
+            console.log("Acid collision, large");
+            this.loseLife();
         });
 
         this.physics.add.overlap(my.sprite.player, this.endPoint, (obj1, obj2) => {
@@ -280,7 +309,7 @@ class Platformer extends Phaser.Scene {
         });
         this.buttonRestart.on('pointerdown', () => {
             this.buttonRestart.setPosition(-100, -100);
-            this.init_game();
+            this.scene.restart();
         });
     }
 
@@ -294,36 +323,61 @@ class Platformer extends Phaser.Scene {
         return;
     }
     // Function for game overs
+    // Probably doesn't work (due to using same code as End Game), 
+    // but untestable due to lack of working means to lose lives
     gameOver(){
         this.pause = true;
+        this.gameOverText.setX(this.cameras.main.worldView.x + 300);
+        this.gameOverText.setDepth(10);
         this.gameOverText.visible = true;
-        this.restartText.visible = true;
-        this.buttonRestart.setPosition(300, 500);
-        this.buttonRestart.setInteractive();
-    }
-    // Function for completing the level
-    winGame(){
-        this.pause = true;
-        this.youWonText.visible = true;
-        this.restartText.visible = true;
+        this.continueText.setX(this.cameras.main.worldView.x + 300);
+        this.continueText.setDepth(10);
+        this.coninueText.visible = true;
+        this.yesText.setX(this.cameras.main.worldView.x + 200);
+        this.yesText.setDepth(11);
         this.yesText.visible = true;
-        this.buttonYes.setPosition(200, 500);
+        this.buttonYes.setPosition(this.cameras.main.worldView.x + 200, 500);
+        this.buttonYes.setDepth(10);
         this.buttonYes.setInteractive();
+        this.noText.setX(this.cameras.main.worldView.x + 400);
+        this.noText.setDepth(11);
         this.noText.visible = true;
-        this.buttonNo.setPosition(400, 500);
+        this.buttonNo.setPosition(this.cameras.main.worldView.x + 400, 500);
+        this.buttonNo.setDepth(10);
         this.buttonNo.setInteractive();
     }
+    // Function for completing the level
+    // Button functions, but doesn't display?  Odd.
+    winGame(){
+        this.pause = true;
+        this.youWonText.setX(this.cameras.main.worldView.x + 350);
+        this.youWonText.setDepth(10);
+        this.youWonText.visible = true;
+        this.restartText.setX(this.cameras.main.worldView.x + 350);
+        this.restartText.setDepth(12);
+        this.restartText.visible = true;
+        this.buttonRestart.setPosition(this.cameras.main.worldView.x + 350, 200);
+        this.buttonRestart.setDepth(11);
+        this.buttonRestart.setInteractive();
+    }
+    // Function for killing the player
     loseLife(){
         my.sprite.player.destroy();
+        console.log("Killed Player");
         this.lives--;
+        console.log("Lives remaining: "+this.lives);
         my.sprite.player = this.physics.add.sprite(this.spawnPoint.x, this.spawnPoint.y, "platformer_characters", "tile_0000.png");
         my.sprite.player.setCollideWorldBounds(true);
+        console.log("Player spawned at "+ my.sprite.player.x +", "+ my.sprite.player.x);
+        this.resetCamera();
         return;
     }
+    // Function for resetting the camera
     resetCamera(){
         this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
         this.cameras.main.startFollow(my.sprite.player, true, 0.25, 0.25); // (target, [,roundPixels][,lerpX][,lerpY])
         this.cameras.main.setDeadzone(50, 50);
         this.cameras.main.setZoom(this.SCALE);
+        return;
     }
 }

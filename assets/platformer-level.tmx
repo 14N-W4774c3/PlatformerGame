@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="120" height="20" tilewidth="18" tileheight="18" infinite="0" nextlayerid="13" nextobjectid="11">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="120" height="20" tilewidth="18" tileheight="18" infinite="0" nextlayerid="13" nextobjectid="13">
  <editorsettings>
   <export target="platformer-level.tmj" format="json"/>
  </editorsettings>
@@ -640,5 +640,7 @@
   <object id="9" name="heart" gid="157" x="1341.66" y="81.6663" width="18" height="18"/>
   <object id="6" name="heart" gid="157" x="1709.67" y="163.667" width="18" height="18"/>
   <object id="10" name="endpoint" gid="59" x="2033.67" y="161.667" width="18" height="18"/>
+  <object id="11" name="acidkillzone" x="1592.67" y="297.333" width="253.333" height="54.6667"/>
+  <object id="12" name="smallacidkillzone" x="917.333" y="341.333"/>
  </objectgroup>
 </map>

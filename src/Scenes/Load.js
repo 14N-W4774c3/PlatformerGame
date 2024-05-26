@@ -15,6 +15,7 @@ class Load extends Phaser.Scene {
         this.load.tilemapTiledJSON("platformer-level", "platformer-level.tmj");   // Tilemap in JSON
 
         this.load.multiatlas("kenny-particles", "kenny-particles.json");
+        this.load.audio("powerup", "impactMining_003.ogg");
     }
 
     create() {
