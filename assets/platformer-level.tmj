@@ -223,26 +223,52 @@
                  "y":161.667
                 }, 
                 {
-                 "height":54.6667,
-                 "id":11,
-                 "name":"acidkillzone",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":253.333,
-                 "x":1592.67,
-                 "y":297.333
-                }, 
-                {
                  "height":0,
-                 "id":12,
-                 "name":"smallacidkillzone",
+                 "id":13,
+                 "name":"smallkillTL",
+                 "point":true,
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":917.333,
-                 "y":341.333
+                 "x":902,
+                 "y":328
+                }, 
+                {
+                 "height":0,
+                 "id":14,
+                 "name":"smallkillBR",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":934,
+                 "y":356.667
+                }, 
+                {
+                 "height":0,
+                 "id":15,
+                 "name":"largekillTL",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":1586.67,
+                 "y":293.333
+                }, 
+                {
+                 "height":0,
+                 "id":16,
+                 "name":"largekillBR",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":1849.33,
+                 "y":354
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -251,7 +277,7 @@
          "y":0
         }],
  "nextlayerid":13,
- "nextobjectid":13,
+ "nextobjectid":17,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

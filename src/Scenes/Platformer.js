@@ -102,7 +102,12 @@ class Platformer extends Phaser.Scene {
         // The claimed error is 'sprite.setTexture is not a function' off of this.map.createFromObjects(...)
         // Why is it calling 'sprite' anything?  These are specified as Zones!
         // newdocs.phaser.io/3.80.0/Phaser.Tilemaps.Tilemap#createFromObjects
-
+        this.smallAcidTL = this.map.findObject("Objects", obj => obj.name === "smallkillTL");
+        this.smallAcidBR = this.map.findObject("Objects", obj => obj.name === "smallkillBR");
+        this.smallAcidKillZone = this.add.zone(this.smallAcidTL.x, this.smallAcidTL.y).setSize(this.smallAcidBR.x - this.smallAcidTL.x, this.smallAcidBR.y - this.smallAcidTL.y);
+        this.largeAcidTL = this.map.findObject("Objects", obj => obj.name === "largekillTL");
+        this.largeAcidBR = this.map.findObject("Objects", obj => obj.name === "largekillBR");
+        this.largeAcidKillZone = this.add.zone(this.largeAcidTL.x, this.largeAcidTL.y).setSize(this.largeAcidBR.x - this.largeAcidTL.x, this.largeAcidBR.y - this.largeAcidTL.y);
         this.physics.world.enable(this.hearts, Phaser.Physics.Arcade.STATIC_BODY);
         this.physics.world.enable(this.endPoint, Phaser.Physics.Arcade.STATIC_BODY);
         this.heartGroup = this.add.group(this.hearts);
@@ -172,11 +177,11 @@ class Platformer extends Phaser.Scene {
             this.lives ++;
         });
 
-        this.physics.add.overlap(my.sprite.player, this.smallacidkillzone, (obj1, obj2) => {
+        this.physics.add.overlap(my.sprite.player, this.smallAcidKillZone, (obj1, obj2) => {
             console.log("Acid collision, small");
             this.loseLife();
         });
-        this.physics.add.overlap(my.sprite.player, this.acidkillzone, (obj1, obj2) => {
+        this.physics.add.overlap(my.sprite.player, this.largeAcidKillZone, (obj1, obj2) => {
             console.log("Acid collision, large");
             this.loseLife();
         });
